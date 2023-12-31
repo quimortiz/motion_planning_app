@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Motion Planning Web App</title>
+
+<style>
+.selected {
+    background-color: yellow;
+}
+</style>
+
+</head>
+
+
+
+<body>
+    <h2>Visualizer</h2>
+    <!-- Placeholder for additional content -->
+
+    {% if additional_html %}
+    {{ additional_html|safe }}
+    {% endif %}
+
+  <form action="/visualize" method="post">
+    <input type="submit" value="Visualize Problem">
+  </form>
+
+
+  <h1>Choose an example motion planning problem</h1>
+
+  Geometric Planning (i.e., first-order integartor)
+
+<form action="/example_problem" method="post">
+    <label><input type="radio" name="problem" value="drones_payload">Drones with payload (only geometric model)</label>
+    <label><input type="radio" name="problem" value="manip_arm">Manipulator Arm and Shelf</label>
+    <label><input type="radio" name="problem" value="two_manip_arms">Two Manipulator Arms</label>
+    <label><input type="radio" name="problem" value="l_shape">Free Flying L-shape</label>
+    <label><input type="radio" name="problem" value="twod_maze">2D maze</label>
+    <label><input type="radio" name="problem" value="threed_maze">3D maze</label>
+    <input type="submit" value="Set Example">
+</form>
+
+  Kinodynamic Motion Planning (Comming soon!)
+
+<a href="/download_problem" class="btn btn-primary">Download Problem Files</a>
+
+
+  <h1>or define your own motion planning problem!</h1>
+
+ <h2>Upload Files</h2>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <label for="urdf">File URDF:</label>
+    <input type="file" name="urdf"> <label for="srdf">File SRDF (optional):</label>
+    <input type="file" name="srdf"><br><br>
+    <input type="submit" value="Upload">
+  </form>
+
+
+
+ <h2>Start and Goal</h2>
+ <p> (Comma-separated list of numbers, e.g., 1.0, 2.0, 3.0) </p>
+  <form action="/set" method="post">
+    <label>Start:</label>
+    <input type="text" name="start_vector" placeholder="Start Vector" required>
+    <label>Goal:</label>
+    <input type="text" name="goal_vector" placeholder="Goal Vector" required>
+    <input type="submit" value="Send">
+  </form>
+
+ <h2>Bounds</h2>
+ <p> (Comma-separated list of numbers, e.g., 1.0, 2.0, 3.0) </p>
+  <form action="/set_bounds" method="post">
+    <label>Lower Bound:</label>
+    <input type="text" name="lower_bound" placeholder="lower bound" required>
+    <label>Upper Bound:</label>
+    <input type="text" name="upper_bound" placeholder="upper bound" required>
+    <input type="submit" value="Send">
+  </form>
+
+
+  <h2> Current Planning problem: </h2>
+  <p> Note: You can load and example problem and modify the start and goal vectors, or the bounds.</p>
+  {% if urdf_file and srdf_file %}
+  <p>URDF File: {{ urdf_file }}</p>
+  <p>SRDF File: {{ srdf_file }}</p>
+  {% endif %}
+  {% if start_vector and goal_vector %}
+    <p>Start Vector: {{ start_vector }}</p>
+    <p>Goal Vector: {{ goal_vector }}</p>
+  {% endif %}
+  {% if lower_bound and upper_bound %}
+    <p>Lower Bound: {{ lower_bound }}</p>
+    <p>Upper Bound: {{ upper_bound }}</p>
+  {% endif %}
+
+
+  <h2>Choose a Planner</h2>
+<form action="/plan" method="post">
+    <!-- Existing inputs for vectors -->
+
+    <label><input type="radio" name="algorithm" value="RRT" checked> RRT</label>
+    <label><input type="radio" name="algorithm" value="RRTConnect"> RRTConnect</label>
+    <label><input type="radio" name="algorithm" value="BiRRT"> BiRRT</label>
+
+    <input type="submit" value="Plan">
+</form>
+
+
+  {% if cpp_output %}
+    <h2>Planner Output:</h2>
+    <pre>{{ cpp_output }}</pre>
+  {% endif %}
+
+<a href="/download_solution" class="btn btn-primary">Download solution</a>
+
+<script>
+    window.onload = function() {
+        // Check if a selection was previously made and apply the 'selected' class
+        var selectedProblem = localStorage.getItem('selectedProblem');
+        if (selectedProblem) {
+            var selectedElement = document.querySelector(`input[name="problem"][value="${selectedProblem}"]`);
+            if (selectedElement) {
+                selectedElement.parentElement.classList.add('selected');
+            }
+        }
+
+        // Add an event listener to all radio buttons
+        var radioButtons = document.querySelectorAll('input[name="problem"]');
+        radioButtons.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                // Remove 'selected' class from all labels
+                radioButtons.forEach(rb => rb.parentElement.classList.remove('selected'));
+
+                // Add 'selected' class to the parent label of the checked radio button
+                this.parentElement.classList.add('selected');
+
+                // Store the selection in local storage
+                localStorage.setItem('selectedProblem', this.value);
+            });
+        });
+    };
+</script>
+
+
+
+</body>
+</html>

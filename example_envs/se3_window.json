@@ -1,0 +1,46 @@
+{
+  "lb": [
+    -2,
+    -2,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+  ],
+  "ub": [
+    3,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "start": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "goal": [
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "urdf": "models/se3_window.urdf",
+  "srdf": "models/se3_window.srdf",
+  "state_space": [
+    "Rn:3",
+    "SO3"
+  ],
+  "base_path": "src/python/pydynorrt/data/",
+  "idx_vis_name": "base_link"
+}
