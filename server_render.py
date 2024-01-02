@@ -248,7 +248,15 @@ def visualize():
     start = np.array(session.get('start_vector',None))
     goal = np.array(session.get('goal_vector',None))
 
-    viewer = meshcat.Visualizer()
+
+    zmq_url = "tcp://127.0.0.1:5560"
+    base_pa = "/home/quimortiz/.virtualenvs/web-app/bin/"
+    args = [base_pa + "meshcat-server", "--zmq-url", zmq_url]
+
+    import os
+    server_proc = subprocess.Popen(args, env = os.environ.copy())
+
+    viewer = meshcat.Visualizer(zmq_url)
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, urdf_file, 
                                               package_dirs=pyrrt.DATADIR + "models/meshes" ,start= start, goal=goal)
     jup = viewer.render_static()
@@ -362,7 +370,15 @@ def run_plan():
     lb = np.array(session.get('lb_vector',None))
     ub = np.array(session.get('ub_vector',None))
 
-    viewer = meshcat.Visualizer()
+
+    zmq_url = "tcp://127.0.0.1:5560"
+    base_pa = "/home/quimortiz/.virtualenvs/web-app/bin/"
+    args = [base_pa + "meshcat-server", "--zmq-url", zmq_url]
+
+    import os
+    server_proc = subprocess.Popen(args, env = os.environ.copy())
+
+    viewer = meshcat.Visualizer(zmq_url)
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, urdf_file, 
                                               package_dirs=pyrrt.DATADIR + "models/meshes"
                                               , start=start, goal=goal)
