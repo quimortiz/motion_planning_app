@@ -10,6 +10,7 @@ import meshcat.geometry as g
 import meshcat.transformations as tf
 import io
 import contextlib
+import subprocess
 
 
 from flask import Flask, request, redirect, url_for, render_template
@@ -200,7 +201,13 @@ def example_problem_fun():
     session["state_space"] = data['state_space']
     session['chosen_problem'] = chosen_problem
 
-    zmq_url="tcp://127.0.0.1:6000"
+    # zmq_url="tcp://127.0.0.1:6000"
+
+    zmq_url = "tcp://127.0.0.1:5560"
+    args = ["meshcat-server", "--zmq-url", zmq_url]
+
+    server_proc = subprocess.Popen(args)
+
     viewer = meshcat.Visualizer(zmq_url)
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, session['urdf_file'],
                                               package_dirs=pyrrt.DATADIR + "models/meshes" ,start= np.array(session['start_vector']), goal=np.array(session['goal_vector']))
