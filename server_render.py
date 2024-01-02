@@ -204,7 +204,9 @@ def example_problem_fun():
     # zmq_url="tcp://127.0.0.1:6000"
 
     zmq_url = "tcp://127.0.0.1:5560"
-    args = ["meshcat-server", "--zmq-url", zmq_url]
+    base_pa = "/home/quimortiz/.virtualenvs/web-app/bin/"
+    args = [base_pa + "meshcat-server", "--zmq-url", zmq_url]
+
     import os
     server_proc = subprocess.Popen(args, env = os.environ.copy())
 
