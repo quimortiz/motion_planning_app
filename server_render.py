@@ -200,8 +200,8 @@ def example_problem_fun():
     session["state_space"] = data['state_space']
     session['chosen_problem'] = chosen_problem
 
-
-    viewer = meshcat.Visualizer()
+    zmq_url="tcp://127.0.0.1:6000"
+    viewer = meshcat.Visualizer(zmq_url)
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, session['urdf_file'],
                                               package_dirs=pyrrt.DATADIR + "models/meshes" ,start= np.array(session['start_vector']), goal=np.array(session['goal_vector']))
     jup = viewer.render_static()
