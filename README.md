@@ -1,11 +1,9 @@
 # Motion Planning App
 
-A small web app for solving motion planning problems in robotics. Play around with differnt problems and plannar, and updload you own motion planning problems! 
-Excellent for understanding and visualizing different planners. 
+A small web application for solving motion planning problems in robotics. Experiment with different problems and planners, and upload your own motion planning problems! It's excellent for understanding and visualizing various planners.
 
+The Motion Planning App is a compact web application built around the C++/Python package DynoRRT. To solve problems on your local computer with state-of-the-art performance, you can simply use:
 
-Motion Planning App is just a small web app around the C++/Python Package DynoRRT.
-To solve problems on your local computer with state-of-the-art performance,you can just use:
 
 ```
 pip3 install pydynorrt
