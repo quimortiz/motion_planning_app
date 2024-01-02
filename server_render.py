@@ -175,11 +175,12 @@ def upload_file():
 def example_problem_fun():
     chosen_problem = request.form['problem']
 
+    base_path = pathlib.Path(__file__).parent.resolve()
     DD = {
-        "drones_payload" :  "./example_envs/point_mass_cables.json", 
-        "manip_arm" : "./example_envs/ur5_bin.json",
-        "two_manip_arms" : "./example_envs/ur5_two_arms.json",
-        "l_shape": "./example_envs/se3_window.json",
+        "drones_payload" :  str(base_path)+ "/example_envs/point_mass_cables.json", 
+        "manip_arm" : str(base_path) + "./example_envs/ur5_bin.json",
+        "two_manip_arms" : str(base_path) + "./example_envs/ur5_two_arms.json",
+        "l_shape": str(base_path) + "./example_envs/se3_window.json",
     }
 
     json_file = DD[chosen_problem]
