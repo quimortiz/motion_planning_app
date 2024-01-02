@@ -214,7 +214,7 @@ def example_problem_fun():
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, session['urdf_file'],
                                               package_dirs=pyrrt.DATADIR + "models/meshes" ,start= np.array(session['start_vector']), goal=np.array(session['goal_vector']))
     jup = viewer.render_static()
-
+    server_proc.kill() 
 
     return render_template('my_template.html', 
                            urdf_file=session.get('urdf_file',None),
@@ -262,6 +262,9 @@ def visualize():
     jup = viewer.render_static()
 
     # session['additional_html'] = 
+
+
+    server_proc.kill() 
 
     return render_template('my_template.html', 
                            urdf_file=session.get('urdf_file',None),
@@ -379,6 +382,7 @@ def run_plan():
     server_proc = subprocess.Popen(args, env = os.environ.copy())
 
     viewer = meshcat.Visualizer(zmq_url)
+
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, urdf_file, 
                                               package_dirs=pyrrt.DATADIR + "models/meshes"
                                               , start=start, goal=goal)
@@ -571,6 +575,8 @@ def run_plan():
     else:
         plan_results = "Invalid algorithm choice."
 
+
+    server_proc.kill() 
     return render_template('my_template.html', 
                            urdf_file=session.get('urdf_file',None),
                            srdf_file=session.get('srdf_file',None),
