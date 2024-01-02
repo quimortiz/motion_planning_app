@@ -204,9 +204,9 @@ def example_problem_fun():
     # zmq_url="tcp://127.0.0.1:6000"
 
     zmq_url = "tcp://127.0.0.1:5560"
-    args = ["meshcat-server", "--zmq-url", zmq_url]
-
-    server_proc = subprocess.Popen(args)
+    args = ["mesihcat-server", "--zmq-url", zmq_url]
+    import os
+    server_proc = subprocess.Popen(args, env = os.environ.copy())
 
     viewer = meshcat.Visualizer(zmq_url)
     viewer_helper = pyrrt_vis.ViewerHelperRRT(viewer, session['urdf_file'],
